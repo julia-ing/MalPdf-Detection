@@ -1,5 +1,6 @@
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 from keras.models import Sequential, Model
 from sklearn.metrics import accuracy_score
 import pandas as pd
@@ -12,8 +13,9 @@ def my_model(new_data):
 
   x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.1, random_state=0)
 
-  clf = Sequential()
-  clf = SVC(gamma='auto')
+  #clf = Sequential()
+  #clf = SVC(gamma='auto')
+  clf = RandomForestClassifier()
   clf.fit(x_train, y_train)
 
   predict = clf.predict(new_data)
@@ -21,5 +23,6 @@ def my_model(new_data):
   #score = accuracy_score(y_test, predict)
   #print('svm  prediction score : %s' % score)
 
-  print(predict)
+  #print(predict)
+  return predict
 

@@ -2,42 +2,41 @@ import os
 import pandas as pd
 from ML import my_model 
 
-f = open('../test-data.libsvm', 'r')
+def print_result(new_data):
+  f = open('../test-data.libsvm', 'r')
 
-lines = f.readlines()
-result = os.popen("cat ../features.nppf | wc -l")
-result = result.read()
+  lines = f.readlines()
+  result = os.popen("cat ../features.nppf | wc -l")
+  result = result.read()
 
-for line in lines:
-  minus_list = [-1]*(int(result)-1)
+  for line in lines:
+    minus_list = [-1]*(int(result)-1)
 
-  l = line.split(' #')[0]
-  l = l.split(' ')
-  file_name = lines[0].split(' #')[1].strip('\n')
+    l = line.split(' #')[0]
+    l = l.split(' ')
+    file_name = lines[0].split(' #')[1].strip('\n')
 
-  for i in range(len(l)):
-    if i != 0:
-      key = int(l[i].split(':')[0])
-      val = float(l[i].split(':')[1])
-      minus_list[key-1]=val
+    for i in range(len(l)):
+      if i != 0:
+        key = int(l[i].split(':')[0])
+        val = float(l[i].split(':')[1])
+        minus_list[key-1]=val
 
-  #if int(l[0]) == 1:
-   # mb = 'M'
-  #else:
-   # mb = 'B'
+    result_string = str(minus_list).strip('[]')
 
-  #result_string[0].append(str(minus_list).strip('[]'))
-  result_string = str(minus_list).strip('[]')
+  tmp = [[]]
+  for i in range(len(result_string.split(','))):
+    tmp[0].append(result_string.split(',')[i])
 
-  print(result_string)
-  print(len(result_string))
+  final = pd.DataFrame(tmp)
+  #print(final)
+  prediction = my_model(final)
+  print(prediction)
 
-print("#############")
-tmp = [[]]
-for i in range(len(result_string.split(','))):
-  tmp[0].append(result_string.split(',')[i])
-
-final = pd.DataFrame(tmp)
-#print(final)
-my_model(final)
+  if prediction == "['B']" or prediction == ['B']:
+    return "Benign pdf with high probability"
+  elif prediction == "['M']" or prediction == ['M']:
+    return "Malicious pdf with high probablity"
+  else:
+    return "Failed to predict the result"
 
