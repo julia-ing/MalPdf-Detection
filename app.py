@@ -37,6 +37,19 @@ def upload_file():
         #os.system("../src/pathcount -i ../cached-pdfs.txt -o ../pathcounts.bin")
         #os.system("../src/feat-select -i ../pathcounts.bin -o ../features.nppf -m1000")
         #os.system("../src/feat-extract -b ../cached-bpdfs.txt -m ../cached-mpdfs.txt -f ../features.nppf --values -o ../data.libsvm")
+        
+        os.system("rm -rf ../../../dataset/test ../test.txt ../cache-test ../cached-test.txt")
+        os.system("mkdir ../../../dataset/test ../cache-test")
+
+        f.save('../../../dataset/test/' + secure_filename(f.filename))
+        os.system("ls -d ../../../dataset/test/* > ~/hidost/build/test.txt") 
+        os.system("../src/cacher -i ../test.txt --compact --values -c /home/yewon/hidost/build/cache-test/ -t10 -m256")
+        os.system("find /home/yewon/hidost/build/cache-test -name '*.pdf' -not -empty > ../cached-test.txt")
+        os.system("cat ../cached-test.txt > ../cached-tests.txt")
+
+        os.system("../src/pathcount -i ../cached-tests.txt -o ../test-pathcounts.bin")
+        os.system("../src/feat-select -i ../test-pathcounts.bin -o ../test-features.nppf -m1")
+        os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o ../test-data.libsvm")
         return render_template('check.html')
 
 
