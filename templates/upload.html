@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
+<!-- 
+<script type="text/javascript">
+    updateList = function() {
+        var input = document.getElementById('file');
+        var output = document.getElementById('fileList');
+        var children = "";
+        for (var i = 0; i < input.files.length; ++i) {
+            children += '<li>' + input.files.item(i).name + '</li>';
+        }
+        output.innerHTML = '<ul>'+children+'</ul>';
+    } 
+</script>  -->
+
 <html class="u_bg">
 <head>
     <title>웹보 쏘 하드</title>
@@ -47,23 +60,35 @@
 <div class="u_title">Upload Page</div>
 
 <div class="u_list">
-    <a href="/">홈페이지</a><br>
+    <a href="./home.html" class="u_list">홈페이지</a>
+    <br/><br/>
     <div style="text-align: center;"></div>
-    <hr width="100%" color="black"/>
     <div>Upload File!</div>
-    <hr width="100%" color="black"/>
 
     <br><br>
     <div style="text-align: center;"></div>
 
-    <div>
-        <form action = "http://localhost:5000/result" method = "POST"
-            enctype = "multipart/form-data">
 
-            <input type = "file" name = "file" />
+    <hr width="100%" color="white"/>
+        <form 
+            action = "http://localhost:8000/result" 
+            method = "POST"
+            enctype = "multipart/form-data"
+        >
+
+            <input 
+                type = "file" 
+                name = "file[]" 
+                accept=".pdf" 
+                multiple="multiple"
+                required 
+            />
             <input type = "submit" />
 
         </form>
+    <hr width="100%" color="white"/>
+
+    <div value>
     </div>
 
 </div>
