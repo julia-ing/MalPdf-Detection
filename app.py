@@ -4,6 +4,7 @@ import os
 from libsvm_to_csv import print_result
 
 from werkzeug.utils import secure_filename
+from elk_lib import elk_logger
 
 app = Flask(__name__)
 
@@ -40,6 +41,9 @@ def upload_file():
         #result = "test!!!"
         html = """<center><a href="/">Return to Home</a><br><br>"""
         html += "Result: {}".format(result) + "</center>"
+
+        logger = elk_logger.create_logger('elk-test-logger')
+        logger.info('pdf parsing complete')
 
         return html
 
