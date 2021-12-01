@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from ML import my_model 
+from elk_lib import elk_logger
 
 def print_result(new_data):
   f = open('../test-data.libsvm', 'r')
@@ -23,7 +24,7 @@ def print_result(new_data):
         minus_list[key-1]=val
 
     result_string = str(minus_list).strip('[]')
-
+  
   tmp = [[]]
   for i in range(len(result_string.split(','))):
     tmp[0].append(result_string.split(',')[i])
@@ -34,8 +35,12 @@ def print_result(new_data):
   print(prediction)
 
   if prediction == "['B']" or prediction == ['B']:
+    logger = elk_logger.create_logger('elk-test-logger')
+    logger.info('prediction result: benign pdf')
     return "Benign pdf with high probability"
   elif prediction == "['M']" or prediction == ['M']:
+    logger = elk_logger.create_logger('elk-test-logger')
+    logger.info('prediction result: malicious pdf')
     return "Malicious pdf with high probablity"
   else:
     return "Failed to predict the result"
