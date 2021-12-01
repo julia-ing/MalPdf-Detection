@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<!-- 
-<script type="text/javascript">
-    updateList = function() {
-        var input = document.getElementById('file');
-        var output = document.getElementById('fileList');
-        var children = "";
-        for (var i = 0; i < input.files.length; ++i) {
-            children += '<li>' + input.files.item(i).name + '</li>';
-        }
-        output.innerHTML = '<ul>'+children+'</ul>';
-    } 
-</script>  -->
 
 <html class="u_bg">
 <head>
     <title>웹보 쏘 하드</title>
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <script type="text/javascript">
+        // 파일 리스트
+        // updateList = function() { 
+        //     var input = document.getElementById('file');
+        //     var output = document.getElementById('fileList');
+        //     var children = "";
+        //     for (var i = 0; i < input.files.length; ++i) {
+        //         children += '<li>' + input.files.item(i).name + '</li>';
+        //     }
+        //     output.innerHTML = '<ul>'+children+'</ul>';
+        // } 
+
+        // 파일 이름 목록 표시
+        var sel_files = [];
+
+        function handleFilesSelect(e) {
+            console.log("된다람쥐");
+
+            // var f = document.getElementById("uploadInput").files[0]; // ㅇ
+            // var fileName = f.name;
+            // document.getElementById("fileName").innerHTML = fileName;
+
+            var files = e.value; //e.target.files
+            console.log(files); // 이건 되는데 웨 밑은 안되냐고
+            //var filesArr = Array.prototype.slice.call(files);
+            var fileName_html = "<div>" + files + "</div>";
+            $(".files_wrap").append(fileName_html);
+
+            // filesArr.forEach(function(f) {
+            //     sel_files.push(f);
+                
+            //     var reader = new FileReader();
+            //     reader.onload = function(e) {
+            //         var fileName_html = "<div>" + e.target.result + "</div>";
+            //         $(".files_wrap").append(fileName_html);
+            //     }
+            //     //reader.readAsDataURL(f);
+            // });
+        }
+
+    </script> 
 </head>
 
 <style>
@@ -54,6 +85,9 @@
         text-align: center;
         justify-content: center;
     }
+    .files_wrap {
+        color: white;
+    }
 </style>
 
 <body>
@@ -62,7 +96,6 @@
 <div class="u_list">
     <a href="./home.html" class="u_list">홈페이지</a>
     <br/><br/>
-    <div style="text-align: center;"></div>
     <div>Upload File!</div>
 
     <br><br>
@@ -77,10 +110,12 @@
         >
 
             <input 
+                id="input_files"
                 type = "file" 
                 name = "file[]" 
                 accept=".pdf" 
                 multiple="multiple"
+                onchange="handleFilesSelect(this);"
                 required 
             />
             <input type = "submit" />
@@ -88,7 +123,8 @@
         </form>
     <hr width="100%" color="white"/>
 
-    <div value>
+    <div class="files_wrap">
+
     </div>
 
 </div>
