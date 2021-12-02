@@ -22,33 +22,31 @@
         var sel_files = [];
 
         function handleFilesSelect(e) {
-            console.log("^^ handleFilesSelect()");
+            console.log("된다람쥐");
 
             // var f = document.getElementById("uploadInput").files[0]; // ㅇ
             // var fileName = f.name;
             // document.getElementById("fileName").innerHTML = fileName;
 
             var files = e.value; //e.target.files
-            console.log(files); 
+            console.log(files); // 이건 되는데 웨 밑은 안되냐고
+            //var filesArr = Array.prototype.slice.call(files);
+            var fileName_html = "<div>" + files + "</div>";
+            $(".files_wrap").append(fileName_html);
 
-            var filesArr = Array.prototype.slice.call(files);
+            // filesArr.forEach(function(f) {
+            //     sel_files.push(f);
 
-            filesArr.forEach(function(f) {
-                console.log("^^ filesArr.forEach(");
-                sel_files.push(f);
-                
-                var reader = new FileReader();
-                //console.log(reader);
-                reader.onload = function(e) {
-                    console.log("^^ reader.onload");
-                    var fileName_html = "<div>" + e.value + "</div>";
-                    $(".files_wrap").append(fileName_html);
-                }
-                //reader.readAsDataURL(f);
-            });
+            //     var reader = new FileReader();
+            //     reader.onload = function(e) {
+            //         var fileName_html = "<div>" + e.target.result + "</div>";
+            //         $(".files_wrap").append(fileName_html);
+            //     }
+            //     //reader.readAsDataURL(f);
+            // });
         }
 
-    </script> 
+    </script>
 </head>
 
 <style>
