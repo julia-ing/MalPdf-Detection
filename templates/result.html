@@ -52,8 +52,9 @@
 
     <script src="http://code.jquery.com/jquery-latest.js"></script> 
     <script type="text/javascript">
-        
-        // $(".c_result").append({html});
+        // 결과값 받아오기
+        var result = {{result_html|tojson}};
+        $(".c_result").append(result);
 
     </script>
 </head>
@@ -73,6 +74,7 @@
     </div>
 
     <div class="c_result">
+        ----바로뽑은거----
         {{result_html}}
     </div>
 
