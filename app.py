@@ -43,11 +43,7 @@ def upload_file():
        
             result = print_result(f)
 
-
-            html += "<center>Result for pdf {} : {}".format(f.filename, result) + "</center>"
-
-        #logger = elk_logger.create_logger('elk-test-logger')
-        #logger.info('pdf parsing complete')
+            html += "<center>Result for {} <br> {}".format(f.filename, result) + "</center>"
 
         return html
 

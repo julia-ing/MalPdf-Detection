@@ -33,16 +33,15 @@ def print_result(index):
     final = pd.DataFrame(tmp)
     prediction = predict(final)
     print(prediction)
-    return prediction
 
-#  if prediction == "['B']" or prediction == ['B']:
-#    logger = elk_logger.create_logger('elk-test-logger')
-#    logger.info('prediction result: benign pdf')
-#    return "Benign pdf with high probability"
-#  elif prediction == "['M']" or prediction == ['M']:
-#    logger = elk_logger.create_logger('elk-test-logger')
-#    logger.info('prediction result: malicious pdf')
-#    return "Malicious pdf with high probablity"
-#  else:
-#    return "Failed to predict the result"
+    if prediction == "['B']" or prediction == ['B']:
+      logger = elk_logger.create_logger('elk-test-logger')
+      logger.info('prediction result: benign pdf')
+      return "Benign pdf with high probability"
+    elif prediction == "['M']" or prediction == ['M']:
+      logger = elk_logger.create_logger('elk-test-logger')
+      logger.info('prediction result: malicious pdf')
+      return "Malicious pdf with high probablity"
+    else:
+      return "Failed to predict the result"
 
