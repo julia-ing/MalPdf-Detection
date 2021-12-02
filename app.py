@@ -4,6 +4,7 @@ import os
 from libsvm_to_csv import print_result
 
 from werkzeug.utils import secure_filename
+from elk_lib import elk_logger
 
 app = Flask(__name__)
 
@@ -21,28 +22,31 @@ def upload_page():
 @app.route('/result', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        f = request.files['file']
-        
-        os.system("rm -rf ../../../dataset/test ../test.txt ../cache-test ../cached-test.txt")
-        os.system("mkdir ../../../dataset/test ../cache-test")
+        html = """<center><a href="/">Return to Home</a><br><br></center>"""
+        upload = request.files.getlist("file[]")
 
-        f.save('../../../dataset/test/' + secure_filename(f.filename))
-        os.system("ls -d ../../../dataset/test/* > ~/hidost/build/test.txt") 
-        os.system("../src/cacher -i ../test.txt --compact --values -c /home/yewon/hidost/build/cache-test/ -t10 -m256")
-        os.system("find /home/yewon/hidost/build/cache-test -name '*.pdf' -not -empty > ../cached-test.txt")
-        os.system("cat ../cached-test.txt > ../cached-tests.txt")
+        # repeat as many times as the number of uploaded files
+        for f in upload:
+            # remove temporary directories if exist & make new dir again
+            os.system("rm -rf ../../../dataset/test ../test.txt ../cache-test ../cached-test.txt")
+            os.system("mkdir ../../../dataset/test ../cache-test")
+            # save file
+            f.save('../../../dataset/test/' + secure_filename(f.filename))
 
-        os.system("../src/pathcount -i ../cached-tests.txt -o ../test-pathcounts.bin")
-        os.system("../src/feat-select -i ../test-pathcounts.bin -o ../test-features.nppf -m1")
-        os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o ../test-data.libsvm")
+            os.system("ls -d ../../../dataset/test/* > ~/hidost/build/test.txt") 
+            os.system("../src/cacher -i ../test.txt --compact --values -c /home/yewon/hidost/build/cache-test/ -t10 -m256")
+            os.system("find /home/yewon/hidost/build/cache-test -name '*.pdf' -not -empty > ../cached-tests.txt")
+
+            os.system("../src/pathcount -i ../cached-tests.txt -o ../test-pathcounts.bin")
+            os.system("../src/feat-select -i ../test-pathcounts.bin -o ../test-features.nppf -m1")
+            os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o ../test-data.libsvm")
        
-        result = print_result(f)
-        #result = "test!!!"
-        html = """<center><a href="/">Return to Home</a><br><br>"""
-        html += "Result: {}".format(result) + "</center>"
+            result = print_result(f)
+
+            html += "<center>Result for {} <br> {}".format(f.filename, result) + "</center>"
 
         return html
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=8000, debug=True)
