@@ -27,10 +27,9 @@ def upload_file():
 
         # repeat as many times as the number of uploaded files
         for f in upload:
-            # remove temporary directories if exists & make new dir again
+            # remove temporary directories if exist & make new dir again
             os.system("rm -rf ../../../dataset/test ../test.txt ../cache-test ../cached-test.txt")
             os.system("mkdir ../../../dataset/test ../cache-test")
-           
             # save file
             f.save('../../../dataset/test/' + secure_filename(f.filename))
 
@@ -43,6 +42,7 @@ def upload_file():
             os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o ../test-data.libsvm")
        
             result = print_result(f)
+
 
             html += "<center>Result for pdf {} : {}".format(f.filename, result) + "</center>"
 
