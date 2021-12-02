@@ -6,23 +6,29 @@ from sklearn.metrics import accuracy_score
 import pandas as pd
 import numpy as np
 import io
+from tensorflow.keras.models import load_model
+import joblib
 
-def my_model(new_data):
-  X = pd.read_csv(('output.csv')).T.iloc[1:].T
-  Y = pd.read_csv(('output.csv')).T.iloc[0]
+#def my_model():
+X = pd.read_csv(('output.csv')).T.iloc[1:].T
+Y = pd.read_csv(('output.csv')).T.iloc[0]
 
-  x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.1, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.1, random_state=0)
 
   #clf = Sequential()
   #clf = SVC(gamma='auto')
-  clf = RandomForestClassifier()
-  clf.fit(x_train, y_train)
+clf = RandomForestClassifier()
+clf.fit(x_train, y_train)
+joblib.dump(clf, './model.pkl')
 
-  predict = clf.predict(new_data)
 
-  #score = accuracy_score(y_test, predict)
-  #print('svm  prediction score : %s' % score)
+#def predict(new_data):
+#  model = load_model('model.h5')
+#  predict = model.predict(new_data)
 
-  #print(predict)
-  return predict
+#  #score = accuracy_score(y_test, predict)
+#  #print('svm  prediction score : %s' % score)
+
+#  #print(predict)
+#  return predict
 
