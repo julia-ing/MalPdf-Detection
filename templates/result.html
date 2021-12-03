@@ -5,17 +5,17 @@
 <!-- CSS -->
 <style>
     @font-face {
-    font-family: "TmoneyRoundWindExtraBold";
-    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+        font-family: "TmoneyRoundWindExtraBold";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
         format("woff");
-    font-weight: normal;
-    font-style: normal;
+        font-weight: normal;
+        font-style: normal;
     }
     @font-face { /* result 용 */
-    font-family: 'RoundRegular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+        font-family: 'RoundRegular';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
     }
     .c_bg {
         background-color: rgb(19, 10, 37);
@@ -32,6 +32,13 @@
     a:hover {
         color : rgb(188, 242, 245);
     }
+    .c_home {
+        text-align: center;
+        color: rgb(15, 196, 196);
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "TmoneyRoundWindExtraBold";
+    }
     .c_find {
         text-align: center;
         color: rgb(15, 196, 196);
@@ -39,44 +46,75 @@
         font-size: 20px;
         font-family: "TmoneyRoundWindExtraBold";
     }
+    .c_line {
+        color: white;
+        width: 100%;
+        opacity: 0.5;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
     .c_result {
-        text-align: center;
+        text-align: left;
+        width: 60%;
+        margin-left: 20%;
         color: white;
         font-size: 18px;
         font-family: 'RoundRegular';
+    }
+    .c_name {
+        font-size: 20px;
+        padding-bottom: 8px;
+    }
+    .c_info {
+        font-size: 17px;
+        opacity: 0.7;
+    }
+    .c_info_benign {
+        font-size: 17px;
+        opacity: 0.7;
+        color: rgb(247, 89, 239);
     }
 </style>
 
 <head>
     <title>웹보 쏘 하드</title>
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script> 
+    <!-- <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript">
         // 결과값 받아오기
         var result = {{result_html|tojson}};
         $(".c_result").append(result);
 
-    </script>
+    </script> -->
 </head>
 
 <body>
-
+{% block content %}
     <div class="c_title">
         Result
     </div>
-<!-- 
-    <div class="c_find">
-        <a href="/">파일 찾기</a>
-    </div> -->
+
+    <div class="c_home">
+        <a  href="/">홈으로 돌아가기</a><br/><br/>
+    </div>
 
     <div class="c_find">
-        파일 탐지 결과
+        파일 탐지 결과<br/><br/>
     </div>
 
     <div class="c_result">
-        ----바로뽑은거----
-        {{result_html}} 
-    </div> 
+        {% for i in result_html %}
+            <hr class="c_line "/>
+            <div class="c_name">Result for {{ i['filename'] }}</div>
+            {% if i['result'] == 'Benign pdf with high probability' %}
+                <div class="c_info_benign">{{ i['result'] }}</div>
+                {% else %}
+                <div class="c_info">{{ i['result'] }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="line"></div>
 
+{% endblock %}
 </body>
 </html>
