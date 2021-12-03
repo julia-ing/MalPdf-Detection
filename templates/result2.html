@@ -78,11 +78,9 @@
     </div>
 
     <div class="c_result">
-        {% for i in filename_html %}
-        <h3>Result for {{ i }}</h3>
-        {% endfor %}
         {% for i in result_html %}
-        <p>{{ i }}</p>
+        <h3>Result for {{ i['filename'] }}</h3>
+        <p>{{ i['result'] }}</p>
         {% endfor %}
     </div>
     <div class="line"></div>

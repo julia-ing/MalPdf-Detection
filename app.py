@@ -23,7 +23,6 @@ def upload_page():
 def upload_file():
     if request.method == 'POST':
         # result_html = """<center><a href="/">Return to Home</a><br><br></center>"""
-        filename_html = []
         result_html = []
         upload = request.files.getlist("file[]")
 
@@ -45,10 +44,13 @@ def upload_file():
        
             result = print_result(f)
 
-            filename_html.append(f.filename)
-            result_html.append(result)
+            final = {
+                'result': result,
+                'filename': f.filename,
+            }
+            result_html.append(final)
 
-        return render_template('result2.html', filename_html=filename_html, result_html=result_html)
+        return render_template('result2.html', result_html=result_html)
 
 
 if __name__ == '__main__':
