@@ -22,7 +22,8 @@ def upload_page():
 @app.route('/result', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        result_html = """<center><a href="/">Return to Home</a><br><br></center>"""
+        # result_html = """<center><a href="/">Return to Home</a><br><br></center>"""
+        result_html = []
         upload = request.files.getlist("file[]")
 
         # repeat as many times as the number of uploaded files
@@ -43,9 +44,13 @@ def upload_file():
        
             result = print_result(f)
 
-            result_html += "<center>Result for {} <br> {}".format(f.filename, result) + "</center>"
+            final = {
+                'result': result,
+                'filename': f.filename,
+            }
+            result_html.append(final)
 
-        return render_template('result.html', result_html=result_html)
+        return render_template('result2.html', result_html=result_html)
 
 
 if __name__ == '__main__':
