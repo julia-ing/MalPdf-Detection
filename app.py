@@ -50,7 +50,7 @@ def upload_file():
             }
             result_html.append(final)
 
-        return render_template('result2.html', result_html=result_html)
+        return render_template('result.html', result_html=result_html)
 
 
 if __name__ == '__main__':
