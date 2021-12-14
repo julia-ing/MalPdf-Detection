@@ -1,10 +1,8 @@
-from datetime import datetime
-from flask import Flask, render_template, jsonify, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request
 import os
 from libsvm_to_csv import print_result
 
 from werkzeug.utils import secure_filename
-from elk_lib import elk_logger
 
 app = Flask(__name__)
 
@@ -22,7 +20,6 @@ def upload_page():
 @app.route('/result', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        # result_html = """<center><a href="/">Return to Home</a><br><br></center>"""
         result_html = []
         upload = request.files.getlist("file[]")
 
@@ -35,12 +32,14 @@ def upload_file():
             f.save('../../../dataset/test/' + secure_filename(f.filename))
 
             os.system("ls -d ../../../dataset/test/* > ~/hidost/build/test.txt") 
-            os.system("../src/cacher -i ../test.txt --compact --values -c /home/yewon/hidost/build/cache-test/ -t10 -m256")
+            os.system("../src/cacher -i ../test.txt --compact --values -c /home/yewon/hidost/build/cache-test/ -t10 "
+                      "-m256")
             os.system("find /home/yewon/hidost/build/cache-test -name '*.pdf' -not -empty > ../cached-tests.txt")
 
             os.system("../src/pathcount -i ../cached-tests.txt -o ../test-pathcounts.bin")
             os.system("../src/feat-select -i ../test-pathcounts.bin -o ../test-features.nppf -m1")
-            os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o ../test-data.libsvm")
+            os.system("../src/feat-extract -b ../cached-tests.txt -m mal-test.txt -f ../features.nppf --values -o "
+                      "../test-data.libsvm")
        
             result = print_result(f)
 
